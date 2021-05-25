@@ -8,7 +8,7 @@
  */
 import { Router } from 'express';
 import { safe } from './utils';
-import { createUser, getPeople, createPeople, createPlanet } from './actions';
+import { createUser, getPeople, createPeople, createPlanet, getPlanet } from './actions';
 import * as actions from './actions';
 
 
@@ -19,6 +19,8 @@ router.post('/user', safe(createUser));
 router.get('/people', safe(getPeople));
 router.post('/people', safe(createPeople));
 router.post('/planet', safe(createPlanet));
+router.get('/planet', safe(getPlanet));
+
 
 
 

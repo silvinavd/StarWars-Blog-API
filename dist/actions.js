@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.createPlanet = exports.createPeople = exports.getPeople = exports.getUsers = exports.createUser = void 0;
+exports.getPlanet = exports.createPlanet = exports.createPeople = exports.getPeople = exports.getUsers = exports.createUser = void 0;
 var typeorm_1 = require("typeorm"); // getRepository"  traer una tabla de la base de datos asociada al objeto
 var Users_1 = require("./entities/Users");
 var People_1 = require("./entities/People");
@@ -147,36 +147,72 @@ var createPeople = function (req, res) { return __awaiter(void 0, void 0, void 0
 }); };
 exports.createPeople = createPeople;
 //Post planet
+// important validations to avoid ambiguos errors, the client needs to understand what went wrong
+// if (!req.body.name) throw new Exception("Please provide a name")
+// if (!req.body.climate) throw new Exception("Please provide a climate")
+// if (!req.body.diameter) throw new Exception("Please provide a diameter")
+// if (!req.body.rotation_period) throw new Exception("Please provide a rotation_period")
+// if (!req.body.orbital_period) throw new Exception("Please provide a orbital_period")
+// if (!req.body.gravity) throw new Exception("Please provide an gravity")
 var createPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var planetRepo, planeta, newPlanet, results;
+    var results, data, i, planetRepo, planet, newPlanet;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                // important validations to avoid ambiguos errors, the client needs to understand what went wrong
-                if (!req.body.name)
-                    throw new utils_1.Exception("Please provide a name");
-                if (!req.body.climate)
-                    throw new utils_1.Exception("Please provide a climate");
-                if (!req.body.diameter)
-                    throw new utils_1.Exception("Please provide a diameter");
-                if (!req.body.rotation_period)
-                    throw new utils_1.Exception("Please provide a rotation_period");
-                if (!req.body.orbital_period)
-                    throw new utils_1.Exception("Please provide a orbital_period");
-                if (!req.body.gravity)
-                    throw new utils_1.Exception("Please provide an gravity");
-                planetRepo = typeorm_1.getRepository(Planets_1.Planets);
-                return [4 /*yield*/, planetRepo.findOne({ where: { name: req.body.name } })];
+                data = new Planets_1.Planets();
+                i = 0;
+                _a.label = 1;
             case 1:
-                planeta = _a.sent();
-                if (planeta)
-                    throw new utils_1.Exception("Planet already exists with this name");
-                newPlanet = typeorm_1.getRepository(Planets_1.Planets).create(req.body);
-                return [4 /*yield*/, typeorm_1.getRepository(People_1.People).save(newPlanet)];
+                if (!(i < req.body.length)) return [3 /*break*/, 5];
+                data.name = req.body[i].name;
+                data.climate = req.body[i].climate;
+                data.diameter = req.body[i].diameter;
+                data.rotation_period = req.body[i].rotation_period;
+                data.orbital_period = req.body[i].orbital_period;
+                data.gravity = req.body[i].gravity;
+                if (!data.name)
+                    throw new utils_1.Exception("Please provide a name");
+                if (!data.climate)
+                    throw new utils_1.Exception("Please provide a climate");
+                if (!data.diameter)
+                    throw new utils_1.Exception("Please provide a diameter");
+                if (!data.rotation_period)
+                    throw new utils_1.Exception("Please provide a rotation period");
+                if (!data.orbital_period)
+                    throw new utils_1.Exception("Please provide a orbital period");
+                if (!data.gravity)
+                    throw new utils_1.Exception("Please provide a gravity");
+                planetRepo = typeorm_1.getRepository(Planets_1.Planets);
+                return [4 /*yield*/, planetRepo.findOne({ where: { name: data.name } })];
             case 2:
-                results = _a.sent();
-                return [2 /*return*/, res.json(results)];
+                planet = _a.sent();
+                if (planet)
+                    throw new utils_1.Exception("Planet already exists with this name");
+                newPlanet = typeorm_1.getRepository(Planets_1.Planets).create(data);
+                return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).save(newPlanet)];
+            case 3:
+                results = _a.sent(); //Grabo el nuevo planeta 
+                _a.label = 4;
+            case 4:
+                i++;
+                return [3 /*break*/, 1];
+            case 5: 
+            // important validations to avoid ambiguos errors, the client needs to understand what went wrong
+            return [2 /*return*/, res.json(results)];
         }
     });
 }); };
 exports.createPlanet = createPlanet;
+//Get Planet
+var getPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var planet;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).find()];
+            case 1:
+                planet = _a.sent();
+                return [2 /*return*/, res.json(planet)];
+        }
+    });
+}); };
+exports.getPlanet = getPlanet;

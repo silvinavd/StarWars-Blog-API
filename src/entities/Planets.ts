@@ -31,4 +31,5 @@ import {
 
     @OneToOne(() => Favs, favs => favs.planets) // specify inverse side as a second parameter
     favs: Favs;
+
   }
