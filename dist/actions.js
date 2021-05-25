@@ -97,11 +97,14 @@ var getPeople = function (req, res) { return __awaiter(void 0, void 0, void 0, f
 exports.getPeople = getPeople;
 //Post people
 var createPeople = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var newPeople, results;
+    var results, i, data, peopleRepo, personaje, newPeople;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                // important validations to avoid ambiguos errors, the client needs to understand what went wrong
+                i = 0;
+                _a.label = 1;
+            case 1:
+                if (!(i < req.body.lenght)) return [3 /*break*/, 5];
                 if (!req.body.name)
                     throw new utils_1.Exception("Please provide a name");
                 if (!req.body.birth_year)
@@ -114,18 +117,37 @@ var createPeople = function (req, res) { return __awaiter(void 0, void 0, void 0
                     throw new utils_1.Exception("Please provide a skin_color");
                 if (!req.body.eye_color)
                     throw new utils_1.Exception("Please provide an eye_color");
-                newPeople = typeorm_1.getRepository(People_1.People).create(req.body);
+                data = new People_1.People();
+                data.name = req.body.name;
+                data.birth_year = req.body.birth_year;
+                data.gender = req.body.gender;
+                data.height = req.body.height;
+                data.skin_color = req.body.skin_color;
+                data.eye_color = req.body.eye_color;
+                peopleRepo = typeorm_1.getRepository(People_1.People);
+                return [4 /*yield*/, peopleRepo.findOne({ where: { name: data.name } })];
+            case 2:
+                personaje = _a.sent();
+                if (personaje)
+                    throw new utils_1.Exception("Character already exists with this name");
+                newPeople = typeorm_1.getRepository(People_1.People).create(data);
                 return [4 /*yield*/, typeorm_1.getRepository(People_1.People).save(newPeople)];
-            case 1:
-                results = _a.sent();
-                return [2 /*return*/, res.json(results)];
+            case 3:
+                results = _a.sent(); //Grabo el nuevo planeta 
+                _a.label = 4;
+            case 4:
+                i++;
+                return [3 /*break*/, 1];
+            case 5: 
+            // important validations to avoid ambiguos errors, the client needs to understand what went wrong
+            return [2 /*return*/, res.json(results)];
         }
     });
 }); };
 exports.createPeople = createPeople;
 //Post planet
 var createPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var newPlanet, results;
+    var planetRepo, planeta, newPlanet, results;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -142,9 +164,15 @@ var createPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0
                     throw new utils_1.Exception("Please provide a orbital_period");
                 if (!req.body.gravity)
                     throw new utils_1.Exception("Please provide an gravity");
+                planetRepo = typeorm_1.getRepository(Planets_1.Planets);
+                return [4 /*yield*/, planetRepo.findOne({ where: { name: req.body.name } })];
+            case 1:
+                planeta = _a.sent();
+                if (planeta)
+                    throw new utils_1.Exception("Planet already exists with this name");
                 newPlanet = typeorm_1.getRepository(Planets_1.Planets).create(req.body);
                 return [4 /*yield*/, typeorm_1.getRepository(People_1.People).save(newPlanet)];
-            case 1:
+            case 2:
                 results = _a.sent();
                 return [2 /*return*/, res.json(results)];
         }

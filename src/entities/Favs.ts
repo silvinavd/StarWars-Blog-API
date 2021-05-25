@@ -3,10 +3,9 @@ import {
     BaseEntity, JoinTable
 } from 'typeorm';
 
-import { Users } from "./Users"
+import { Users } from "./Users";
 import {People} from "./People";
 import {Planets} from "./Planets";
-
 
 @Entity()
 export class Favs extends BaseEntity {
