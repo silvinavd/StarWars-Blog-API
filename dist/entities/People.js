@@ -26,6 +26,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 exports.__esModule = true;
 exports.People = void 0;
 var typeorm_1 = require("typeorm");
+var Favs_1 = require("./Favs");
 var People = /** @class */ (function (_super) {
     __extends(People, _super);
     function People() {
@@ -59,6 +60,11 @@ var People = /** @class */ (function (_super) {
         typeorm_1.Column(),
         __metadata("design:type", String)
     ], People.prototype, "eye_color");
+    __decorate([
+        typeorm_1.OneToOne(function () { return Favs_1.Favs; }, function (favs) { return favs.people; }) // specify inverse side as a second parameter
+        ,
+        __metadata("design:type", Favs_1.Favs)
+    ], People.prototype, "favs");
     People = __decorate([
         typeorm_1.Entity()
     ], People);

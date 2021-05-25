@@ -7,6 +7,7 @@ import { Users } from "./Users";
 import {People} from "./People";
 import {Planets} from "./Planets";
 
+
 @Entity()
 export class Favs extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -18,11 +19,11 @@ export class Favs extends BaseEntity {
     @ManyToOne(() => Users, users => users.favs)
     users: Users;
 
-    @OneToOne(() => Planets)
-    @JoinColumn()
-    planet: Planets;
-
-    @OneToOne(() => People)
+    @OneToOne(() => People, people => people.favs) // specify inverse side as a second parameter
     @JoinColumn()
     people: People;
+
+     @OneToOne(() => Planets, planets => planets.favs) // specify inverse side as a second parameter
+    @JoinColumn()
+    planets: Planets;
 }

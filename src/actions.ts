@@ -35,23 +35,27 @@ export const getPeople = async (req: Request, res: Response): Promise<Response> 
 
 //Post people
 export const createPeople = async (req: Request, res: Response): Promise<Response> => {
+    // body = [{},{},{},{}]
+// body[i].name
 let results: any ;
-    for (let i=0; i<req.body.lenght; i++) {
-        if (!req.body.name) throw new Exception("Please provide a name")
-        if (!req.body.birth_year) throw new Exception("Please provide a birth_year")
-        if (!req.body.gender) throw new Exception("Please provide a gender")
-        if (!req.body.height) throw new Exception("Please provide a height")
-        if (!req.body.skin_color) throw new Exception("Please provide a skin_color")
-        if (!req.body.eye_color) throw new Exception("Please provide an eye_color")
+const data = new People()
+    for (let i=0; i<req.body.length; i++) {
+        data.name = req.body[i].name
+        data.birth_year = req.body[i].birth_year
+        data.gender = req.body[i].gender
+        data.height = req.body[i].height
+        data.skin_color = req.body[i].skin_color
+        data.eye_color = req.body[i].eye_color
+
+        if (!data.name) throw new Exception("Please provide a name")
+        if (!data.birth_year) throw new Exception("Please provide a birth_year")
+        if (!data.gender) throw new Exception("Please provide a gender")
+        if (!data.height) throw new Exception("Please provide a height")
+        if (!data.skin_color) throw new Exception("Please provide a skin_color")
+        if (!data.eye_color) throw new Exception("Please provide an eye_color")
     
-        const data = new People()
-        data.name = req.body.name
-        data.birth_year = req.body.birth_year
-        data.gender = req.body.gender
-        data.height = req.body.height
-        data.skin_color = req.body.skin_color
-        data.eye_color = req.body.eye_color
-    
+        console.log(req.body[i].name,"aca");
+        
     
         const peopleRepo = getRepository(People)
         const personaje = await peopleRepo.findOne({ where: { name: data.name } })

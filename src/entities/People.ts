@@ -1,6 +1,6 @@
 import {
     Entity, Column, PrimaryGeneratedColumn, ManyToMany,
-    BaseEntity, JoinTable
+    BaseEntity, JoinTable, JoinColumn, OneToOne
 } from 'typeorm';
 
 import {Favs} from "./Favs";
@@ -30,4 +30,7 @@ export class People extends BaseEntity {
 
     @Column()
     eye_color: string;
+
+    @OneToOne(() => Favs, favs => favs.people) // specify inverse side as a second parameter
+    favs: Favs;
 }

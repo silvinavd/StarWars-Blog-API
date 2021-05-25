@@ -26,6 +26,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 exports.__esModule = true;
 exports.Planets = void 0;
 var typeorm_1 = require("typeorm");
+var Favs_1 = require("./Favs");
 var Planets = /** @class */ (function (_super) {
     __extends(Planets, _super);
     function Planets() {
@@ -59,6 +60,11 @@ var Planets = /** @class */ (function (_super) {
         typeorm_1.Column(),
         __metadata("design:type", String)
     ], Planets.prototype, "gravity");
+    __decorate([
+        typeorm_1.OneToOne(function () { return Favs_1.Favs; }, function (favs) { return favs.planets; }) // specify inverse side as a second parameter
+        ,
+        __metadata("design:type", Favs_1.Favs)
+    ], Planets.prototype, "favs");
     Planets = __decorate([
         typeorm_1.Entity()
     ], Planets);

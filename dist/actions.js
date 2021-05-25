@@ -97,33 +97,34 @@ var getPeople = function (req, res) { return __awaiter(void 0, void 0, void 0, f
 exports.getPeople = getPeople;
 //Post people
 var createPeople = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var results, i, data, peopleRepo, personaje, newPeople;
+    var results, data, i, peopleRepo, personaje, newPeople;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
+                data = new People_1.People();
                 i = 0;
                 _a.label = 1;
             case 1:
-                if (!(i < req.body.lenght)) return [3 /*break*/, 5];
-                if (!req.body.name)
+                if (!(i < req.body.length)) return [3 /*break*/, 5];
+                data.name = req.body[i].name;
+                data.birth_year = req.body[i].birth_year;
+                data.gender = req.body[i].gender;
+                data.height = req.body[i].height;
+                data.skin_color = req.body[i].skin_color;
+                data.eye_color = req.body[i].eye_color;
+                if (!data.name)
                     throw new utils_1.Exception("Please provide a name");
-                if (!req.body.birth_year)
+                if (!data.birth_year)
                     throw new utils_1.Exception("Please provide a birth_year");
-                if (!req.body.gender)
+                if (!data.gender)
                     throw new utils_1.Exception("Please provide a gender");
-                if (!req.body.height)
+                if (!data.height)
                     throw new utils_1.Exception("Please provide a height");
-                if (!req.body.skin_color)
+                if (!data.skin_color)
                     throw new utils_1.Exception("Please provide a skin_color");
-                if (!req.body.eye_color)
+                if (!data.eye_color)
                     throw new utils_1.Exception("Please provide an eye_color");
-                data = new People_1.People();
-                data.name = req.body.name;
-                data.birth_year = req.body.birth_year;
-                data.gender = req.body.gender;
-                data.height = req.body.height;
-                data.skin_color = req.body.skin_color;
-                data.eye_color = req.body.eye_color;
+                console.log(req.body[i].name, "aca");
                 peopleRepo = typeorm_1.getRepository(People_1.People);
                 return [4 /*yield*/, peopleRepo.findOne({ where: { name: data.name } })];
             case 2:

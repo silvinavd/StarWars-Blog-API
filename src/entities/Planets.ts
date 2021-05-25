@@ -1,6 +1,6 @@
 import {
     Entity, Column, PrimaryGeneratedColumn, ManyToMany, 
-    BaseEntity, JoinTable
+    BaseEntity, JoinTable, JoinColumn, OneToOne
   } from 'typeorm';
 
   import {Favs} from "./Favs";
@@ -28,4 +28,7 @@ import {
 
     @Column()
     gravity: string; 
+
+    @OneToOne(() => Favs, favs => favs.planets) // specify inverse side as a second parameter
+    favs: Favs;
   }
