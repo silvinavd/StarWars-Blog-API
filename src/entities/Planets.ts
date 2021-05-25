@@ -6,8 +6,6 @@ import {
   import {Favs} from "./Favs";
   import {Users} from "./Users";
 
-
-  
   @Entity()
   export class Planets extends BaseEntity{
     @PrimaryGeneratedColumn()
@@ -29,7 +27,5 @@ import {
     orbital_period: number;
 
     @Column()
-    gravity: string;
-
-    
+    gravity: string; 
   }

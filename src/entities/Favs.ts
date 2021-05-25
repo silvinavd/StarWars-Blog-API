@@ -4,7 +4,7 @@ import {
 } from 'typeorm';
 
 import { Users } from "./Users"
-import {Character} from "./Character";
+import {People} from "./People";
 import {Planets} from "./Planets";
 
 
@@ -23,7 +23,7 @@ export class Favs extends BaseEntity {
     @JoinColumn()
     planet: Planets;
 
-    @OneToOne(() => Character)
+    @OneToOne(() => People)
     @JoinColumn()
-    character: Character;
+    people: People;
 }

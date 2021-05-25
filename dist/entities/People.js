@@ -24,37 +24,44 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 exports.__esModule = true;
-exports.Favs = void 0;
+exports.People = void 0;
 var typeorm_1 = require("typeorm");
-var Users_1 = require("./Users");
-var People_1 = require("./People");
-var Planets_1 = require("./Planets");
-var Favs = /** @class */ (function (_super) {
-    __extends(Favs, _super);
-    function Favs() {
+var People = /** @class */ (function (_super) {
+    __extends(People, _super);
+    function People() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
         typeorm_1.PrimaryGeneratedColumn(),
         __metadata("design:type", Number)
-    ], Favs.prototype, "favouriteId");
+    ], People.prototype, "id");
     __decorate([
-        typeorm_1.ManyToOne(function () { return Users_1.Users; }, function (users) { return users.favs; }),
-        __metadata("design:type", Users_1.Users)
-    ], Favs.prototype, "users");
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], People.prototype, "name");
     __decorate([
-        typeorm_1.OneToOne(function () { return Planets_1.Planets; }),
-        typeorm_1.JoinColumn(),
-        __metadata("design:type", Planets_1.Planets)
-    ], Favs.prototype, "planet");
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], People.prototype, "birth_year");
     __decorate([
-        typeorm_1.OneToOne(function () { return People_1.People; }),
-        typeorm_1.JoinColumn(),
-        __metadata("design:type", People_1.People)
-    ], Favs.prototype, "people");
-    Favs = __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], People.prototype, "gender");
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", Number)
+    ], People.prototype, "height");
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], People.prototype, "skin_color");
+    __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], People.prototype, "eye_color");
+    People = __decorate([
         typeorm_1.Entity()
-    ], Favs);
-    return Favs;
+    ], People);
+    return People;
 }(typeorm_1.BaseEntity));
-exports.Favs = Favs;
+exports.People = People;

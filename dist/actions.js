@@ -36,10 +36,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.getUsers = exports.createUser = void 0;
+exports.createPlanet = exports.createPeople = exports.getPeople = exports.getUsers = exports.createUser = void 0;
 var typeorm_1 = require("typeorm"); // getRepository"  traer una tabla de la base de datos asociada al objeto
 var Users_1 = require("./entities/Users");
+var People_1 = require("./entities/People");
 var utils_1 = require("./utils");
+var Planets_1 = require("./entities/Planets");
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var userRepo, user, newUser, results;
     return __generator(this, function (_a) {
@@ -81,3 +83,71 @@ var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, fu
     });
 }); };
 exports.getUsers = getUsers;
+var getPeople = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var people;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(People_1.People).find()];
+            case 1:
+                people = _a.sent();
+                return [2 /*return*/, res.json(people)];
+        }
+    });
+}); };
+exports.getPeople = getPeople;
+//Post people
+var createPeople = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var newPeople, results;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                // important validations to avoid ambiguos errors, the client needs to understand what went wrong
+                if (!req.body.name)
+                    throw new utils_1.Exception("Please provide a name");
+                if (!req.body.birth_year)
+                    throw new utils_1.Exception("Please provide a birth_year");
+                if (!req.body.gender)
+                    throw new utils_1.Exception("Please provide a gender");
+                if (!req.body.height)
+                    throw new utils_1.Exception("Please provide a height");
+                if (!req.body.skin_color)
+                    throw new utils_1.Exception("Please provide a skin_color");
+                if (!req.body.eye_color)
+                    throw new utils_1.Exception("Please provide an eye_color");
+                newPeople = typeorm_1.getRepository(People_1.People).create(req.body);
+                return [4 /*yield*/, typeorm_1.getRepository(People_1.People).save(newPeople)];
+            case 1:
+                results = _a.sent();
+                return [2 /*return*/, res.json(results)];
+        }
+    });
+}); };
+exports.createPeople = createPeople;
+//Post planet
+var createPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var newPlanet, results;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                // important validations to avoid ambiguos errors, the client needs to understand what went wrong
+                if (!req.body.name)
+                    throw new utils_1.Exception("Please provide a name");
+                if (!req.body.climate)
+                    throw new utils_1.Exception("Please provide a climate");
+                if (!req.body.diameter)
+                    throw new utils_1.Exception("Please provide a diameter");
+                if (!req.body.rotation_period)
+                    throw new utils_1.Exception("Please provide a rotation_period");
+                if (!req.body.orbital_period)
+                    throw new utils_1.Exception("Please provide a orbital_period");
+                if (!req.body.gravity)
+                    throw new utils_1.Exception("Please provide an gravity");
+                newPlanet = typeorm_1.getRepository(Planets_1.Planets).create(req.body);
+                return [4 /*yield*/, typeorm_1.getRepository(People_1.People).save(newPlanet)];
+            case 1:
+                results = _a.sent();
+                return [2 /*return*/, res.json(results)];
+        }
+    });
+}); };
+exports.createPlanet = createPlanet;
