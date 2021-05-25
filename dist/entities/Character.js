@@ -24,41 +24,44 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 exports.__esModule = true;
-exports.Users = void 0;
+exports.Character = void 0;
 var typeorm_1 = require("typeorm");
-var Favs_1 = require("./Favs");
-var Users = /** @class */ (function (_super) {
-    __extends(Users, _super);
-    function Users() {
+var Character = /** @class */ (function (_super) {
+    __extends(Character, _super);
+    function Character() {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     __decorate([
         typeorm_1.PrimaryGeneratedColumn(),
         __metadata("design:type", Number)
-    ], Users.prototype, "id");
+    ], Character.prototype, "id");
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Users.prototype, "first_name");
+    ], Character.prototype, "name");
     __decorate([
         typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Users.prototype, "last_name");
+    ], Character.prototype, "birth_year");
     __decorate([
-        typeorm_1.Column({ unique: true }),
+        typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Users.prototype, "email");
+    ], Character.prototype, "gender");
     __decorate([
-        typeorm_1.Column({ unique: true }),
+        typeorm_1.Column(),
+        __metadata("design:type", Number)
+    ], Character.prototype, "height");
+    __decorate([
+        typeorm_1.Column(),
         __metadata("design:type", String)
-    ], Users.prototype, "password");
+    ], Character.prototype, "skin_color");
     __decorate([
-        typeorm_1.OneToMany(function () { return Favs_1.Favs; }, function (favs) { return favs.users; }),
-        __metadata("design:type", Array)
-    ], Users.prototype, "favs");
-    Users = __decorate([
+        typeorm_1.Column(),
+        __metadata("design:type", String)
+    ], Character.prototype, "eye_color");
+    Character = __decorate([
         typeorm_1.Entity()
-    ], Users);
-    return Users;
+    ], Character);
+    return Character;
 }(typeorm_1.BaseEntity));
-exports.Users = Users;
+exports.Character = Character;
