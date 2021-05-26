@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.login = exports.getPlanet = exports.createPlanet = exports.createPeople = exports.getPeople = exports.getUsers = exports.createUser = void 0;
+exports.getPlanetbyId = exports.getPeoplebyId = exports.getUserbyId = exports.login = exports.getPlanet = exports.createPlanet = exports.createPeople = exports.getPeople = exports.getUsers = exports.createUser = void 0;
 var typeorm_1 = require("typeorm"); // getRepository"  traer una tabla de la base de datos asociada al objeto
 var Users_1 = require("./entities/Users");
 var People_1 = require("./entities/People");
@@ -247,3 +247,51 @@ var login = function (req, res) { return __awaiter(void 0, void 0, void 0, funct
     });
 }); };
 exports.login = login;
+//Get user/id
+var getUserbyId = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var users;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Users_1.Users).findOne(req.params.user_id)];
+            case 1:
+                users = _a.sent();
+                if (!users) {
+                    return [2 /*return*/, res.json({ "message": "Usuario no existe" })];
+                }
+                return [2 /*return*/, res.json(users)];
+        }
+    });
+}); };
+exports.getUserbyId = getUserbyId;
+//Get personaje/id
+var getPeoplebyId = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var people;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(People_1.People).findOne(req.params.people_id)];
+            case 1:
+                people = _a.sent();
+                if (!people) {
+                    return [2 /*return*/, res.json({ "message": "El personaje no existe" })];
+                }
+                return [2 /*return*/, res.json(people)];
+        }
+    });
+}); };
+exports.getPeoplebyId = getPeoplebyId;
+//Get planeta/id
+var getPlanetbyId = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var planet;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).findOne(req.params.planet_id)];
+            case 1:
+                planet = _a.sent();
+                if (!planet) {
+                    return [2 /*return*/, res.json({ "message": "El planeta no existe" })];
+                }
+                return [2 /*return*/, res.json(planet)];
+        }
+    });
+}); };
+exports.getPlanetbyId = getPlanetbyId;

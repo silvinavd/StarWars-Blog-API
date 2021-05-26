@@ -18,4 +18,7 @@ router.post('/user', utils_1.safe(actions_1.createUser));
 router.post('/people', utils_1.safe(actions_1.createPeople));
 router.post('/planet', utils_1.safe(actions_1.createPlanet));
 router.post('/login', utils_1.safe(actions_1.login));
+router.get('/user/:user_id', utils_1.safe(actions_1.getUserbyId));
+router.get('/people/:people_id', utils_1.safe(actions_1.getPeoplebyId));
+router.get('/planet/:planet_id', utils_1.safe(actions_1.getPlanetbyId));
 exports["default"] = router;

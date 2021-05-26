@@ -139,3 +139,32 @@ export const login = async (req: Request, res: Response): Promise<Response> =>{
 	return res.json({ user, token });
 }
 
+//Get user/id
+
+export const getUserbyId = async (req: Request, res: Response): Promise<Response> => {
+    const users = await getRepository(Users).findOne(req.params.user_id);
+    if (!users) {
+        return res.json({ "message": "Usuario no existe" })
+    }
+    return res.json(users);
+}
+
+//Get personaje/id
+
+export const getPeoplebyId = async (req: Request, res: Response): Promise<Response> => {
+    const people = await getRepository(People).findOne(req.params.people_id);
+    if (!people) {
+        return res.json({ "message": "El personaje no existe" })
+    }
+    return res.json(people);
+}
+
+//Get planeta/id
+
+export const getPlanetbyId = async (req: Request, res: Response): Promise<Response> => {
+    const planet = await getRepository(Planets).findOne(req.params.planet_id);
+    if (!planet) {
+        return res.json({ "message": "El planeta no existe" })
+    }
+    return res.json(planet);
+}
