@@ -172,12 +172,9 @@ export const addPlanet = async (req: Request, res: Response): Promise<Response> 
         favorito.users= userid;
         favorito.people = personaje;
     // important validations to avoid ambiguos errors, the client needs to understand what went wrong
-    console.log(favorito);
-     const newFav = getRepository(Favs).create(favorito);  //Creo un fav
+    const newFav = getRepository(Favs).create(favorito);  //Creo un fav
     const results = await getRepository(Favs).save(newFav); //Grabo el nuevo usuario 
     return res.json(results);
-    
-
 }
 
 

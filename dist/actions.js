@@ -312,8 +312,6 @@ var addPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 favorito.planets = planetid;
                 favorito.users = userid;
                 favorito.people = personaje;
-                // important validations to avoid ambiguos errors, the client needs to understand what went wrong
-                console.log(favorito);
                 newFav = typeorm_1.getRepository(Favs_1.Favs).create(favorito);
                 return [4 /*yield*/, typeorm_1.getRepository(Favs_1.Favs).save(newFav)];
             case 3:
