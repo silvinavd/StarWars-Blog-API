@@ -33,5 +33,10 @@ const verifyToken= (req: Request,res:Response, next:NextFunction) =>{
 }
 
 router.get('/user',verifyToken, safe(actions.getUsers));
+router.get('/user/:user_id', verifyToken, safe(actions.getUserbyId));
+
+
+
+
 
 export default router;

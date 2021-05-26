@@ -51,4 +51,5 @@ var verifyToken = function (req, res, next) {
     next();
 };
 router.get('/user', verifyToken, utils_1.safe(actions.getUsers));
+router.get('/user/:user_id', verifyToken, utils_1.safe(actions.getUserbyId));
 exports["default"] = router;

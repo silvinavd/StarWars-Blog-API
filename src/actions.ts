@@ -5,9 +5,10 @@ import { People } from './entities/People'
 import { Exception } from './utils'
 import { Planets } from './entities/Planets'
 import jwt from 'jsonwebtoken'
+import { Favs } from './entities/Favs'
 
 
-
+//Create user
 export const createUser = async (req: Request, res: Response): Promise<Response> => {
 
     // important validations to avoid ambiguos errors, the client needs to understand what went wrong
@@ -25,21 +26,9 @@ export const createUser = async (req: Request, res: Response): Promise<Response>
     const results = await getRepository(Users).save(newUser); //Grabo el nuevo usuario 
     return res.json(results);
 }
-
-export const getUsers = async (req: Request, res: Response): Promise<Response> => {
-    const users = await getRepository(Users).find();
-    return res.json(users);
-}
-
-export const getPeople = async (req: Request, res: Response): Promise<Response> => {
-    const people = await getRepository(People).find();
-    return res.json(people);
-}
-
-//Post people
+//Create people
 export const createPeople = async (req: Request, res: Response): Promise<Response> => {
-    // body = [{},{},{},{}]
-    // body[i].name
+
     let results: any;
     const data = new People()
     for (let i = 0; i < req.body.length; i++) {
@@ -72,15 +61,7 @@ export const createPeople = async (req: Request, res: Response): Promise<Respons
     return res.json(results);
 }
 
-//Post planet
-
-// important validations to avoid ambiguos errors, the client needs to understand what went wrong
-// if (!req.body.name) throw new Exception("Please provide a name")
-// if (!req.body.climate) throw new Exception("Please provide a climate")
-// if (!req.body.diameter) throw new Exception("Please provide a diameter")
-// if (!req.body.rotation_period) throw new Exception("Please provide a rotation_period")
-// if (!req.body.orbital_period) throw new Exception("Please provide a orbital_period")
-// if (!req.body.gravity) throw new Exception("Please provide an gravity")
+//Create planet
 export const createPlanet = async (req: Request, res: Response): Promise<Response> => {
 
     let results: any;
@@ -113,14 +94,52 @@ export const createPlanet = async (req: Request, res: Response): Promise<Respons
     return res.json(results);
 }
 
+//Get users
+export const getUsers = async (req: Request, res: Response): Promise<Response> => {
+    const users = await getRepository(Users).find();
+    return res.json(users);
+}
+//Get people
+export const getPeople = async (req: Request, res: Response): Promise<Response> => {
+    const people = await getRepository(People).find();
+    return res.json(people);
+}
+
+
 //Get Planet
 export const getPlanet = async (req: Request, res: Response): Promise<Response> => {
     const planet = await getRepository(Planets).find();
     return res.json(planet);
 }
 
-//Login
+//Get user/id
+export const getUserbyId = async (req: Request, res: Response): Promise<Response> => {
+    const users = await getRepository(Users).findOne(req.params.user_id);
+    if (!users) {
+        return res.json({ "message": "Usuario no existe" })
+    }
+    return res.json(users);
+}
 
+//Get personaje/id
+export const getPeoplebyId = async (req: Request, res: Response): Promise<Response> => {
+    const people = await getRepository(People).findOne(req.params.people_id);
+    if (!people) {
+        return res.json({ "message": "El personaje no existe" })
+    }
+    return res.json(people);
+}
+
+//Get planeta/id
+export const getPlanetbyId = async (req: Request, res: Response): Promise<Response> => {
+    const planet = await getRepository(Planets).findOne(req.params.planet_id);
+    if (!planet) {
+        return res.json({ "message": "El planeta no existe" })
+    }
+    return res.json(planet);
+}
+
+//Login
 export const login = async (req: Request, res: Response): Promise<Response> =>{
 		
 	if(!req.body.email) throw new Exception("Please specify an email on your request body", 400)
@@ -139,32 +158,26 @@ export const login = async (req: Request, res: Response): Promise<Response> =>{
 	return res.json({ user, token });
 }
 
-//Get user/id
+//Post Favourite Planet
+export const addPlanet = async (req: Request, res: Response): Promise<Response> => {
+        //Valido que existan los parametros
+        const userid = await getRepository(Users).findOne(req.params.user_id);
+        if (!userid) throw new Exception ("Usuario no existe");
+        const planetid = await getRepository(Planets).findOne(req.params.planet_id);
+        if (!planetid) throw new Exception ("Planeta no existe");
 
-export const getUserbyId = async (req: Request, res: Response): Promise<Response> => {
-    const users = await getRepository(Users).findOne(req.params.user_id);
-    if (!users) {
-        return res.json({ "message": "Usuario no existe" })
-    }
-    return res.json(users);
+        const personaje = new People();
+        const favorito = new Favs();
+        favorito.planets = planetid;
+        favorito.users= userid;
+        favorito.people = personaje;
+    // important validations to avoid ambiguos errors, the client needs to understand what went wrong
+    console.log(favorito);
+     const newFav = getRepository(Favs).create(favorito);  //Creo un fav
+    const results = await getRepository(Favs).save(newFav); //Grabo el nuevo usuario 
+    return res.json(results);
+    
+
 }
 
-//Get personaje/id
 
-export const getPeoplebyId = async (req: Request, res: Response): Promise<Response> => {
-    const people = await getRepository(People).findOne(req.params.people_id);
-    if (!people) {
-        return res.json({ "message": "El personaje no existe" })
-    }
-    return res.json(people);
-}
-
-//Get planeta/id
-
-export const getPlanetbyId = async (req: Request, res: Response): Promise<Response> => {
-    const planet = await getRepository(Planets).findOne(req.params.planet_id);
-    if (!planet) {
-        return res.json({ "message": "El planeta no existe" })
-    }
-    return res.json(planet);
-}

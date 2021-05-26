@@ -43,13 +43,13 @@ var Favs = /** @class */ (function (_super) {
         __metadata("design:type", Users_1.Users)
     ], Favs.prototype, "users");
     __decorate([
-        typeorm_1.OneToOne(function () { return People_1.People; }, function (people) { return people.favs; }) // specify inverse side as a second parameter
+        typeorm_1.OneToOne(function () { return People_1.People; }, function (people) { return people.favs; }, { nullable: true }) // specify inverse side as a second parameter
         ,
         typeorm_1.JoinColumn(),
         __metadata("design:type", People_1.People)
     ], Favs.prototype, "people");
     __decorate([
-        typeorm_1.OneToOne(function () { return Planets_1.Planets; }, function (planets) { return planets.favs; }) // specify inverse side as a second parameter
+        typeorm_1.OneToOne(function () { return Planets_1.Planets; }, function (planets) { return planets.favs; }, { nullable: true }) // specify inverse side as a second parameter
         ,
         typeorm_1.JoinColumn(),
         __metadata("design:type", Planets_1.Planets)

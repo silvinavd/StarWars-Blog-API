@@ -39,13 +39,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 exports.__esModule = true;
-exports.getPlanetbyId = exports.getPeoplebyId = exports.getUserbyId = exports.login = exports.getPlanet = exports.createPlanet = exports.createPeople = exports.getPeople = exports.getUsers = exports.createUser = void 0;
+exports.addPlanet = exports.login = exports.getPlanetbyId = exports.getPeoplebyId = exports.getUserbyId = exports.getPlanet = exports.getPeople = exports.getUsers = exports.createPlanet = exports.createPeople = exports.createUser = void 0;
 var typeorm_1 = require("typeorm"); // getRepository"  traer una tabla de la base de datos asociada al objeto
 var Users_1 = require("./entities/Users");
 var People_1 = require("./entities/People");
 var utils_1 = require("./utils");
 var Planets_1 = require("./entities/Planets");
 var jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+var Favs_1 = require("./entities/Favs");
+//Create user
 var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var userRepo, user, newUser, results;
     return __generator(this, function (_a) {
@@ -75,31 +77,7 @@ var createUser = function (req, res) { return __awaiter(void 0, void 0, void 0, 
     });
 }); };
 exports.createUser = createUser;
-var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var users;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(Users_1.Users).find()];
-            case 1:
-                users = _a.sent();
-                return [2 /*return*/, res.json(users)];
-        }
-    });
-}); };
-exports.getUsers = getUsers;
-var getPeople = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var people;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, typeorm_1.getRepository(People_1.People).find()];
-            case 1:
-                people = _a.sent();
-                return [2 /*return*/, res.json(people)];
-        }
-    });
-}); };
-exports.getPeople = getPeople;
-//Post people
+//Create people
 var createPeople = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var results, data, i, peopleRepo, personaje, newPeople;
     return __generator(this, function (_a) {
@@ -150,14 +128,7 @@ var createPeople = function (req, res) { return __awaiter(void 0, void 0, void 0
     });
 }); };
 exports.createPeople = createPeople;
-//Post planet
-// important validations to avoid ambiguos errors, the client needs to understand what went wrong
-// if (!req.body.name) throw new Exception("Please provide a name")
-// if (!req.body.climate) throw new Exception("Please provide a climate")
-// if (!req.body.diameter) throw new Exception("Please provide a diameter")
-// if (!req.body.rotation_period) throw new Exception("Please provide a rotation_period")
-// if (!req.body.orbital_period) throw new Exception("Please provide a orbital_period")
-// if (!req.body.gravity) throw new Exception("Please provide an gravity")
+//Create planet
 var createPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var results, data, i, planetRepo, planet, newPlanet;
     return __generator(this, function (_a) {
@@ -207,6 +178,32 @@ var createPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0
     });
 }); };
 exports.createPlanet = createPlanet;
+//Get users
+var getUsers = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var users;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Users_1.Users).find()];
+            case 1:
+                users = _a.sent();
+                return [2 /*return*/, res.json(users)];
+        }
+    });
+}); };
+exports.getUsers = getUsers;
+//Get people
+var getPeople = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var people;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(People_1.People).find()];
+            case 1:
+                people = _a.sent();
+                return [2 /*return*/, res.json(people)];
+        }
+    });
+}); };
+exports.getPeople = getPeople;
 //Get Planet
 var getPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var planet;
@@ -220,33 +217,6 @@ var getPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0, f
     });
 }); };
 exports.getPlanet = getPlanet;
-//Login
-var login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var userRepo, user, token;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                if (!req.body.email)
-                    throw new utils_1.Exception("Please specify an email on your request body", 400);
-                if (!req.body.password)
-                    throw new utils_1.Exception("Please specify a password on your request body", 400);
-                return [4 /*yield*/, typeorm_1.getRepository(Users_1.Users)
-                    // We need to validate that a user with this email and password exists in the DB
-                ];
-            case 1:
-                userRepo = _a.sent();
-                return [4 /*yield*/, userRepo.findOne({ where: { email: req.body.email, password: req.body.password } })];
-            case 2:
-                user = _a.sent();
-                if (!user)
-                    throw new utils_1.Exception("Invalid email or password", 401);
-                token = jsonwebtoken_1["default"].sign({ user: user }, process.env.JWT_KEY);
-                // return the user and the recently created token to the client
-                return [2 /*return*/, res.json({ user: user, token: token })];
-        }
-    });
-}); };
-exports.login = login;
 //Get user/id
 var getUserbyId = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var users;
@@ -295,3 +265,61 @@ var getPlanetbyId = function (req, res) { return __awaiter(void 0, void 0, void 
     });
 }); };
 exports.getPlanetbyId = getPlanetbyId;
+//Login
+var login = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var userRepo, user, token;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!req.body.email)
+                    throw new utils_1.Exception("Please specify an email on your request body", 400);
+                if (!req.body.password)
+                    throw new utils_1.Exception("Please specify a password on your request body", 400);
+                return [4 /*yield*/, typeorm_1.getRepository(Users_1.Users)
+                    // We need to validate that a user with this email and password exists in the DB
+                ];
+            case 1:
+                userRepo = _a.sent();
+                return [4 /*yield*/, userRepo.findOne({ where: { email: req.body.email, password: req.body.password } })];
+            case 2:
+                user = _a.sent();
+                if (!user)
+                    throw new utils_1.Exception("Invalid email or password", 401);
+                token = jsonwebtoken_1["default"].sign({ user: user }, process.env.JWT_KEY);
+                // return the user and the recently created token to the client
+                return [2 /*return*/, res.json({ user: user, token: token })];
+        }
+    });
+}); };
+exports.login = login;
+//Post Favourite Planet
+var addPlanet = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var userid, planetid, personaje, favorito, newFav, results;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, typeorm_1.getRepository(Users_1.Users).findOne(req.params.user_id)];
+            case 1:
+                userid = _a.sent();
+                if (!userid)
+                    throw new utils_1.Exception("Usuario no existe");
+                return [4 /*yield*/, typeorm_1.getRepository(Planets_1.Planets).findOne(req.params.planet_id)];
+            case 2:
+                planetid = _a.sent();
+                if (!planetid)
+                    throw new utils_1.Exception("Planeta no existe");
+                personaje = new People_1.People();
+                favorito = new Favs_1.Favs();
+                favorito.planets = planetid;
+                favorito.users = userid;
+                favorito.people = personaje;
+                // important validations to avoid ambiguos errors, the client needs to understand what went wrong
+                console.log(favorito);
+                newFav = typeorm_1.getRepository(Favs_1.Favs).create(favorito);
+                return [4 /*yield*/, typeorm_1.getRepository(Favs_1.Favs).save(newFav)];
+            case 3:
+                results = _a.sent();
+                return [2 /*return*/, res.json(results)];
+        }
+    });
+}); };
+exports.addPlanet = addPlanet;

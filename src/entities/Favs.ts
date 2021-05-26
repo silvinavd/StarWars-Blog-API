@@ -15,11 +15,11 @@ export class Favs extends BaseEntity {
     @ManyToOne(() => Users, users => users.favs)
     users: Users;
 
-    @OneToOne(() => People, people => people.favs) // specify inverse side as a second parameter
+    @OneToOne(() => People, people => people.favs, {nullable: true}) // specify inverse side as a second parameter
     @JoinColumn()
     people: People;
 
-    @OneToOne(() => Planets, planets => planets.favs) // specify inverse side as a second parameter
+    @OneToOne(() => Planets, planets => planets.favs, {nullable: true}) // specify inverse side as a second parameter
     @JoinColumn()
     planets: Planets;
 }
