@@ -33,8 +33,4 @@ export class People extends BaseEntity {
 
     @OneToOne(() => Favs, favs => favs.people) // specify inverse side as a second parameter
     favs: Favs;
-    // @OneToOne(() => Favs, favs => favs.people) // specify inverse side as a second parameter
-    // @JoinColumn()
-    // people: Favs;
-
 }

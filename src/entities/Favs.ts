@@ -4,24 +4,17 @@ import {
 } from 'typeorm';
 
 import { Users } from "./Users";
-import {People} from "./People";
-import {Planets} from "./Planets";
-
+import { People } from "./People";
+import { Planets } from "./Planets";
 
 @Entity()
 export class Favs extends BaseEntity {
     @PrimaryGeneratedColumn()
     favouriteId: number;
 
-    // @Column()
-    // userId: string;
-
     @ManyToOne(() => Users, users => users.favs)
     users: Users;
 
-//     @OneToOne(() => People, people => people.people)
-//     people: People; // specify inverse side as a second parameter
-// 
     @OneToOne(() => People, people => people.favs) // specify inverse side as a second parameter
     @JoinColumn()
     people: People;
