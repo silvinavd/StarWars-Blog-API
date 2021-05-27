@@ -34,10 +34,10 @@ const verifyToken= (req: Request,res:Response, next:NextFunction) =>{
 
 router.get('/user',verifyToken, safe(actions.getUsers));
 router.get('/user/:user_id', verifyToken, safe(actions.getUserbyId));
-router.post('/:user_id/favourite/:planet_id', verifyToken, safe(actions.addPlanet));
+router.post('/:user_id/favourite/planet/:planet_id', verifyToken, safe(actions.addPlanet));
 router.post('/:user_id/favourite/people/:people_id', verifyToken, safe(actions.addPeople));
 router.get('/:user_id/favourite', verifyToken, safe(actions.getFavourite));
-router.delete('/:user_id/favourite/:planet_id', safe(actions.deletePlanet));
+router.delete('/:user_id/favourite/planet/:planet_id', safe(actions.deletePlanet));
 router.delete('/:user_id/favourite/people/:people_id', verifyToken, safe(actions.deletePeople));
 
 
