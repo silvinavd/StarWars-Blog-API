@@ -166,15 +166,58 @@ export const addPlanet = async (req: Request, res: Response): Promise<Response> 
         const planetid = await getRepository(Planets).findOne(req.params.planet_id);
         if (!planetid) throw new Exception ("Planeta no existe");
 
-        const personaje = new People();
+        // const personaje = new People();
         const favorito = new Favs();
         favorito.planets = planetid;
         favorito.users= userid;
-        favorito.people = personaje;
+        // favorito.people = personaje;
     // important validations to avoid ambiguos errors, the client needs to understand what went wrong
     const newFav = getRepository(Favs).create(favorito);  //Creo un fav
     const results = await getRepository(Favs).save(newFav); //Grabo el nuevo usuario 
     return res.json(results);
 }
 
+//Post Favourite People
+export const addPeople = async (req: Request, res: Response): Promise<Response> => {
+        //Valido que existan los parametros
+        const userid = await getRepository(Users).findOne(req.params.user_id);
+        if (!userid) throw new Exception ("Usuario no existe");
+        const people = await getRepository(People).findOne(req.params.people_id);
+        if (!people) throw new Exception ("Personaje no existe");
 
+        const favorito = new Favs();
+        favorito.people = people;
+        favorito.users= userid;
+       
+    // important validations to avoid ambiguos errors, the client needs to understand what went wrong
+    const newFav = getRepository(Favs).create(favorito);  //Creo un fav
+    const results = await getRepository(Favs).save(newFav); //Grabo el nuevo usuario 
+    return res.json(results);
+}
+
+//Get favoritos
+export const getFavourite = async (req: Request, res: Response): Promise<Response> => {
+    const fav = await getRepository(Favs).find({relations:["people","planets"] });
+    return res.json(fav);
+}
+
+//Delete Favourite Planet
+export const deletePlanet = async (req: Request, res: Response): Promise<Response> => {
+    const fav = await getRepository(Favs).findOne(req.params.id);
+    if (!fav) {
+        return res.json({ "message": "Usuario no existe" })
+    }
+    else {
+        const result = await getRepository(Favs).delete(fav);
+        return res.json(result);
+    }}
+//Delete Favourite People
+export const deletePeople = async (req: Request, res: Response): Promise<Response> => {
+    const fav = await getRepository(Favs).findOne(req.params.id);
+    if (!fav) {
+        return res.json({ "message": "Usuario no existe" })
+    }
+    else {
+        const result = await getRepository(Favs).delete(fav);
+        return res.json(result);
+    }}

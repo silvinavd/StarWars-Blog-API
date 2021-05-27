@@ -20,5 +20,4 @@ router.post('/planet', utils_1.safe(actions_1.createPlanet));
 router.post('/login', utils_1.safe(actions_1.login));
 router.get('/people/:people_id', utils_1.safe(actions_1.getPeoplebyId));
 router.get('/planet/:planet_id', utils_1.safe(actions_1.getPlanetbyId));
-router.post('/:user_id/favourite/:planet_id', utils_1.safe(actions_1.addPlanet));
 exports["default"] = router;

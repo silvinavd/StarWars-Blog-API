@@ -52,4 +52,9 @@ var verifyToken = function (req, res, next) {
 };
 router.get('/user', verifyToken, utils_1.safe(actions.getUsers));
 router.get('/user/:user_id', verifyToken, utils_1.safe(actions.getUserbyId));
+router.post('/:user_id/favourite/:planet_id', verifyToken, utils_1.safe(actions.addPlanet));
+router.post('/:user_id/favourite/people/:people_id', verifyToken, utils_1.safe(actions.addPeople));
+router.get('/:user_id/favourite', verifyToken, utils_1.safe(actions.getFavourite));
+router["delete"]('/:user_id/favourite/:planet_id', utils_1.safe(actions.deletePlanet));
+router["delete"]('/:user_id/favourite/people/:people_id', verifyToken, utils_1.safe(actions.deletePeople));
 exports["default"] = router;
